@@ -1,0 +1,85 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color:rgb(0, 100, 186);
+}
+
+.container {
+    display: flex;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 470px;
+    background-color: lightgray;
+    border: 1px solid black;
+    margin: 1px;
+}
+
+.btn {
+    display: flex;
+    border: none;
+    background-color: lightgray;
+    justify-self: flex-start;
+    color: grey;
+}
+
+.textBox {
+    display: flex;
+    margin: 5px;
+    min-height: 50px;
+    width: 458px;
+    justify-content: flex-end;
+}
+
+.textBox:hover {
+    cursor: grab;
+}
+
+.card {
+    width: 458px;
+}
+
+.newCard {
+    width: 458px;   
+    background-color: #fff;
+    border: 1px solid black;
+}
+
+.deleteButton {
+    display: none;
+    position: absolute;
+    background: none;
+    border: none;
+    transform: scale(1.5);
+    z-index: 1000px;
+}
+
+.dragged {
+    position: absolute;
+    z-index: 999;
+    pointer-events: grabbing;
+    background: #fff;
+}
+
+.buttonsBlock {
+    display: flex;
+    padding: 5px;
+    height: 40px;
+}
+
+.addButton {
+    background-color: #17B169;
+    color: white;
+    display: inline;
+    width: 100px;
+    border: none;
+}
+
+.removeButton {
+    border: none;
+    margin-left: 5px;
+}
