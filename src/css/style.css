@@ -83,3 +83,8 @@ body {
     border: none;
     margin-left: 5px;
 }
+
+.proection {
+    background-color: gray;
+    margin: 5px;
+}

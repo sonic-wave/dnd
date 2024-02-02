@@ -1,5 +1,5 @@
 import "./css/style.css";
-import Card from "./js/card";
+import Card from "./js/Сard";
 
 const card = new Card();
 

@@ -3,6 +3,7 @@ export default class Card {
     this.deleteButton = [];
     this.textBox = [];
     this.cards = [];
+    this.mouseUpItem = undefined;
   }
 
   addCard(el) {
@@ -62,6 +63,28 @@ export default class Card {
     element.remove();
   }
 
+  addProection(textBoxList, mouseUpItem) {
+    if (
+      mouseUpItem &&
+      mouseUpItem.classList.contains("textBox") &&
+      !mouseUpItem.classList.contains("proectionAdded")
+    ) {
+      this.mouseUpItem = mouseUpItem;
+      const proection = document.createElement("div");
+      proection.className = "proection";
+      proection.style.width = "458px";
+      proection.style.height = mouseUpItem.offsetHeight + "px";
+      textBoxList.insertBefore(proection, mouseUpItem);
+      mouseUpItem.classList.add("proectionAdded");
+    }
+  }
+
+  removeProection() {
+    const proection = document.querySelectorAll(".proection");
+
+    proection.forEach((el) => el.remove());
+  }
+
   addListner() {
     this.textBox.forEach((element) =>
       element.addEventListener("mouseover", (element) => {
@@ -73,22 +96,47 @@ export default class Card {
     let actualElement;
 
     const onMouseOver = (e) => {
-      actualElement.style.top = e.clientY + "px";
-      actualElement.style.left = e.clientX + "px";
+      const textBoxList = e.target.closest(".textBoxList");
+      const mouseUpItem = e.target.closest(".textBox");
+      this.addProection(textBoxList, mouseUpItem);
+    };
+
+    const onMouseMove = (e) => {
+      // actualElement.style.top = e.clientY + "px";
+      // actualElement.style.left = e.clientX + "px";
+
+      const { pageX, pageY } = e;
+
+      actualElement.style.left = pageX - this.shiftX + "px";
+      actualElement.style.top = pageY - this.shiftY + "px";
+      actualElement.style.pointerEvents = "none";
+      // const textBoxList = e.target.closest(".textBoxList");
+      // const mouseUpItem = e.target.closest(".textBox");
+      // this.addProection(textBoxList, mouseUpItem);
     };
 
     const onMouseUp = (e) => {
       const textBoxList = e.target.closest(".textBoxList");
       const mouseUpItem = e.target.closest(".textBox");
+      const proection = e.target.closest(".proection");
+      const mouseUpItems = document.querySelectorAll(".textBox");
+      // textBoxList.insertBefore(actualElement, mouseUpItem);
 
-      textBoxList.insertBefore(actualElement, mouseUpItem);
+      if (proection) {
+        proection.replaceWith(actualElement);
+        this.removeProection();
+        mouseUpItems.forEach((el) => el.classList.remove("proectionAdded"));
+      }
 
       actualElement.classList.remove("dragged");
+      actualElement.style.pointerEvents = "auto";
+      actualElement.style = "default";
 
       actualElement = undefined;
 
-      document.documentElement.removeEventListener("mouseup", onMouseUp);
       document.documentElement.removeEventListener("mouseover", onMouseOver);
+      document.documentElement.removeEventListener("mouseup", onMouseUp);
+      document.documentElement.removeEventListener("mousemove", onMouseMove);
     };
 
     this.cards.forEach((element) =>
@@ -98,8 +146,16 @@ export default class Card {
         actualElement.classList.add("dragged");
         actualElement.style.cursor = "grab";
 
-        document.documentElement.addEventListener("mouseup", onMouseUp);
+        const target = element.target;
+
+        if (target.classList.contains("newCard")) {
+          this.shiftX = element.offsetX;
+          this.shiftY = element.offsetY;
+        }
+
         document.documentElement.addEventListener("mouseover", onMouseOver);
+        document.documentElement.addEventListener("mouseup", onMouseUp);
+        document.documentElement.addEventListener("mousemove", onMouseMove);
       }),
     );
 
