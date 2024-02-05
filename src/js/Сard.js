@@ -17,9 +17,6 @@ export default class Card {
     const parent = el.closest(".column");
     parent.querySelector(".textBoxList").append(textBox);
     textBox.append(card);
-    // textBox.append(deleteButton);
-    // this.textBox.push(textBox);
-    // this.deleteButton.push(deleteButton);
     el.style.display = "none";
 
     const buttonsBlock = document.createElement("div");
@@ -69,6 +66,7 @@ export default class Card {
       mouseUpItem.classList.contains("textBox") &&
       !mouseUpItem.classList.contains("proectionAdded")
     ) {
+      this.removeProection();
       this.mouseUpItem = mouseUpItem;
       const proection = document.createElement("div");
       proection.className = "proection";
@@ -95,32 +93,21 @@ export default class Card {
 
     let actualElement;
 
-    const onMouseOver = (e) => {
-      const textBoxList = e.target.closest(".textBoxList");
-      const mouseUpItem = e.target.closest(".textBox");
-      this.addProection(textBoxList, mouseUpItem);
-    };
-
     const onMouseMove = (e) => {
-      // actualElement.style.top = e.clientY + "px";
-      // actualElement.style.left = e.clientX + "px";
-
       const { pageX, pageY } = e;
 
       actualElement.style.left = pageX - this.shiftX + "px";
       actualElement.style.top = pageY - this.shiftY + "px";
       actualElement.style.pointerEvents = "none";
-      // const textBoxList = e.target.closest(".textBoxList");
-      // const mouseUpItem = e.target.closest(".textBox");
-      // this.addProection(textBoxList, mouseUpItem);
+
+      const textBoxList = e.target.closest(".textBoxList");
+      const mouseUpItem = e.target.closest(".textBox");
+      this.addProection(textBoxList, mouseUpItem);
     };
 
     const onMouseUp = (e) => {
-      const textBoxList = e.target.closest(".textBoxList");
-      const mouseUpItem = e.target.closest(".textBox");
       const proection = e.target.closest(".proection");
       const mouseUpItems = document.querySelectorAll(".textBox");
-      // textBoxList.insertBefore(actualElement, mouseUpItem);
 
       if (proection) {
         proection.replaceWith(actualElement);
@@ -134,7 +121,6 @@ export default class Card {
 
       actualElement = undefined;
 
-      document.documentElement.removeEventListener("mouseover", onMouseOver);
       document.documentElement.removeEventListener("mouseup", onMouseUp);
       document.documentElement.removeEventListener("mousemove", onMouseMove);
     };
@@ -153,7 +139,6 @@ export default class Card {
           this.shiftY = element.offsetY;
         }
 
-        document.documentElement.addEventListener("mouseover", onMouseOver);
         document.documentElement.addEventListener("mouseup", onMouseUp);
         document.documentElement.addEventListener("mousemove", onMouseMove);
       }),
