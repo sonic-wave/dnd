@@ -4,6 +4,7 @@ export default class Card {
     this.textBox = [];
     this.cards = [];
     this.mouseUpItem = undefined;
+    this.proection = 0;
   }
 
   addCard(el) {
@@ -79,8 +80,10 @@ export default class Card {
 
   removeProection() {
     const proection = document.querySelectorAll(".proection");
+    const mouseUpItems = document.querySelectorAll(".textBox");
 
     proection.forEach((el) => el.remove());
+    mouseUpItems.forEach((el) => el.classList.remove("proectionAdded"));
   }
 
   addListner() {
@@ -111,6 +114,7 @@ export default class Card {
 
       if (proection) {
         proection.replaceWith(actualElement);
+        this.proection = 1;
         this.removeProection();
         mouseUpItems.forEach((el) => el.classList.remove("proectionAdded"));
       }
