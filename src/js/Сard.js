@@ -117,7 +117,7 @@ export default class Card {
         this.proection = 1;
         this.removeProection();
         mouseUpItems.forEach((el) => el.classList.remove("proectionAdded"));
-      } 
+      }
       this.removeProection();
 
       actualElement.classList.remove("dragged");
