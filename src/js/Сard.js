@@ -78,6 +78,20 @@ export default class Card {
     }
   }
 
+  addProection2(textBoxList) {
+    if (textBoxList) {
+      this.removeProection();
+      // this.mouseUpItem = mouseUpItem;
+      const proection = document.createElement("div");
+      proection.className = "proection";
+      proection.style.width = "458px";
+      proection.style.height = "50px";
+      console.log(textBoxList);
+      textBoxList.append(proection);
+      // mouseUpItem.classList.add("proectionAdded");
+    }
+  }
+
   removeProection() {
     const proection = document.querySelectorAll(".proection");
     const mouseUpItems = document.querySelectorAll(".textBox");
@@ -106,6 +120,10 @@ export default class Card {
       const textBoxList = e.target.closest(".textBoxList");
       const mouseUpItem = e.target.closest(".textBox");
       this.addProection(textBoxList, mouseUpItem);
+
+      if (!mouseUpItem) {
+        this.addProection2(e.target.querySelector(".textBoxList"));
+      }
     };
 
     const onMouseUp = (e) => {
